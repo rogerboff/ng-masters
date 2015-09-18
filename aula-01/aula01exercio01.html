@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Exerc&iacute;cios do curso Ng-Masters</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="../assets/css/default.css" rel="stylesheet">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+    </head>
+
+    <body>
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="http://ng-masters.com/">Curso Ng-Masters</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="aula01exercio01.html">Aula 01</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+
+        <!-- Page Content -->
+        <div class="container">
+
+            <!-- Page Content -->
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <p class="lead">Lista de Exerc&iacute;cios</p>
+
+                        <div class="list-group">
+                            <a href="http://localhost:63342/ng-masters/aula-01/aula01exercio01.html" class="list-group-item active">Exerc&iacute;cio 1</a>
+                            <a href="http://localhost:63342/ng-masters/aula-01/aula01exercio02.html" class="list-group-item">Exerc&iacute;cio 2</a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-9"><h2>Aula 01 - Exerc&iacute;cio 1</h2></div>
+
+                    <div class="col-md-9">
+
+                        <div class="thumbnail">
+                            <div class="caption-full">
+                                <h3>Consultar ISSUES</h3>
+
+                                <div class="form-group">
+                                    <label class="control-label">Usu&aacute;rio:</label>
+                                    <input class="form-control" type="text" id="github_username" autofocus placeholder="Informe o usu&aacute;rio" value="rogerboff">
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Reposit&oacute;rio:</label>
+                                    <input class="form-control" type="text" id="github_reponame" placeholder="Informe o nome do reposit&oacute;rio" value="djsourceview">
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-group-sm btn-success" onclick="VaiBuscarAsIssues()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;Consultar issues
+                                    </button>
+                                    <button class="btn btn-group-sm btn-default" onclick="$('input.form-control').val('')"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span>&nbsp;Limpar
+                                    </button>
+                                    <button class="btn btn-group-sm btn-primary" onclick="EitaPreguica()"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>&nbsp;Estou com
+                                                                                                                                                                                sorte(Pregui&ccedil;a)
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="mensagem"></div>
+                        <div class="thumbnail">
+                            <div class="caption-full">
+                                <table id="issuestable" class="table table-striper table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th>N&uacute;mero</th>
+                                            <th>T&iacute;tulo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <!-- /.container -->
+
+                <div class="container">
+
+                    <hr>
+
+                    <!-- Footer -->
+                    <footer>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <p>Copyright &copy; N&atilde;o tem copyright nenhum!!</p>
+                            </div>
+                        </div>
+                    </footer>
+
+                </div>
+                <!-- /.container -->
+
+                <!-- Modal Start here-->
+                <div class="modal fade bs-example-modal-sm" id="divAguarde" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title"><span class="glyphicon glyphicon-time"></span>&nbsp;Por favor, aguarde!</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped active" style="width: 100%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal ends Here -->
+
+                <!-- jQuery -->
+                <script src="../assets/js/jquery.js"></script>
+
+                <!-- Bootstrap Core JavaScript -->
+                <script src="../assets/js/bootstrap.js"></script>
+
+                <script src="../assets/js/utils.js"></script>
+                <script src="../assets/js/exercicios/aula01/exercicio01.js"></script>
+
+    </body>
+
+</html>
