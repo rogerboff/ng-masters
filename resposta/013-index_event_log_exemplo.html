@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>AngularJS</title>
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/app.css">
+        <script src="lib/angular.js"></script>
+        <script src="lib/jquery-1.10.2.min.js"></script>
+        <script src="js/base.js"></script>
+        <style>
+            div#demo {
+                /*border: solid 1px;*/
+                width: 10px;
+                height: 10px;
+                background: red;
+                position: absolute;
+                z-index: 998;
+            }
+
+            div#info {
+                width: auto;
+                height: auto;
+                position: fixed;
+                z-index: 999;
+                background: #e1edf1;
+                padding: 5px;
+            }
+
+            img#foto {
+                border: dotted 3px;
+            }
+        </style>
+        <script>
+            'use strict';
+            function AttributeError(msg) {
+                this.mensagem = msg;
+                this.toString = function () {
+                    return "AttributeError: " + this.mensagem;
+                };
+            }
+
+            String.prototype.format = function () {
+                var formatted = this;
+                for (var i = 0; i < arguments.length; i++) {
+                    if (typeof arguments[i] == 'string' || typeof arguments[i] == 'number') {
+                        var regexp = new RegExp('\\{' + i + '\\}', 'gi');
+                        formatted = formatted.replace(regexp, arguments[i]);
+                    } else {
+                        throw new AttributeError('O atributo não é do tipo String');
+                    }
+                }
+                return formatted;
+            };
+
+            function posicionaDivCordenadas(event) {
+                var cX = event.clientX;
+                var cY = event.clientY;
+                var foto = document.getElementById("posicao");
+
+                if (foto == null) {
+                    var div = document.createElement('div');
+                    div.id = 'posicao';
+                    document.body.appendChild(div);
+                    foto = document.getElementById("posicao");
+                }
+
+                foto.style.left = cX + 'px';
+                foto.style.top = cY + 'px';
+            }
+
+            function parentElemento(elemento) {
+                if (elemento != null) {
+                    var tag = elemento.nodeName;
+                    if (elemento.id != '') {
+                        tag = tag + '#' + elemento.id
+                    }
+                    return parentElemento(elemento.parentElement) + '.' + tag;
+                }
+                return '';
+            }
+
+            function divShowInfo(event) {
+                var elementoRepr = parentElemento(event.target);
+
+                var oX = event.offsetX;
+                var oY = event.offsetY;
+
+                var cX = event.clientX;
+                var sX = event.screenX;
+                var xX = event.x;
+                var cY = event.clientY;
+                var sY = event.screenY;
+                var yY = event.y;
+                var info = [];
+                var html = '';
+
+                info.push("Posicao: clientX: {0} - clientY: {1}".format(cX, cY));
+                info.push("Posicao: screenX: {0} - screenY: {1}".format(sX, sY));
+                info.push("Posicao: X: {0} - Y: {1}".format(xX, yY));
+                info.push('Elemento em foco: {0}'.format(elementoRepr.toLowerCase()));
+                info.push("Elemento Posicao: offsetX: {0} - offsetY: {1}".format(oX, oY));
+
+//                console.log('Posicao Layer: Left: {0} - Top: {1}'.format(cX, cY));
+
+                window.Global['divInfo'].style.left = (cX + 10) + 'px';
+                window.Global['divInfo'].style.top = (cY + 10) + 'px';
+
+                for (var indice in info) {
+                    html = html + ('<strong>' + info[indice] + '</strong><br>')
+                }
+
+                window.Global['divInfo'].innerHTML = html
+            }
+
+            function divDemoInfo() {
+                alert('Fui')
+            }
+
+        </script>
+        <script>
+
+            angular.module("myapp").factory('IssuesModel', function ($http) {
+                var m = {
+                    issues: [],
+                    loading_issues: false
+                };
+
+                angular.extend(m, {
+                    get_issues: get_issues,
+                    sobe: sobe,
+                    desce: desce
+                });
+
+                function get_issues() {
+                    var url = 'https://api.github.com/repos/freedomsponsors/www.freedomsponsors.org/issues';
+                    m.loading_issues = true;
+                    $http.get(url).success(function (result) {
+                        m.loading_issues = false;
+                        m.issues = result;
+                    });
+                }
+
+                function sobe(indice) {
+                    _troca(m.issues, indice, indice - 1);
+                }
+
+                function desce(indice) {
+                    _troca(m.issues, indice, indice + 1);
+                }
+
+                function _troca(array, i, j) {
+                    var temp = array[i];
+                    array[i] = array[j];
+                    array[j] = temp;
+                }
+
+                return m;
+            });
+
+            angular.module("myapp").factory('FotosModel', function ($log) {
+                var fotos = [
+                    "img/phones/motorola-xoom-with-wi-fi.0.jpg",
+                    "img/phones/motorola-xoom.0.jpg",
+                    "img/phones/motorola-atrix-4g.0.jpg",
+                    "img/phones/dell-streak-7.0.jpg",
+                    "img/phones/samsung-gem.0.jpg",
+                    "img/phones/dell-venue.0.jpg",
+                    "img/phones/nexus-s.0.jpg",
+                    "img/phones/lg-axis.0.jpg",
+                    "img/phones/samsung-galaxy-tab.0.jpg",
+                    "img/phones/samsung-showcase-a-galaxy-s-phone.0.jpg",
+                    "img/phones/droid-2-global-by-motorola.0.jpg",
+                    "img/phones/droid-pro-by-motorola.0.jpg",
+                    "img/phones/motorola-bravo-with-motoblur.0.jpg",
+                    "img/phones/motorola-defy-with-motoblur.0.jpg",
+                    "img/phones/t-mobile-mytouch-4g.0.jpg",
+                    "img/phones/samsung-mesmerize-a-galaxy-s-phone.0.jpg",
+                    "img/phones/sanyo-zio.0.jpg",
+                    "img/phones/samsung-transform.0.jpg",
+                    "img/phones/t-mobile-g2.0.jpg",
+                    "img/phones/motorola-charm-with-motoblur.0.jpg"
+                ];
+                var indicefoto = 0;
+
+                var m = {
+                    foto: fotos[indicefoto],
+                    passafoto: passafoto
+                };
+
+                function passafoto(evento) {
+                    $log.info(evento);
+                    if (evento.x > 320) {
+                        indicefoto++;
+                        if (indicefoto >= fotos.length) {
+                            indicefoto -= fotos.length;
+                        }
+                    }
+                    if (evento.x < 80) {
+                        indicefoto--;
+                        if (indicefoto < 0) {
+                            indicefoto += fotos.length;
+                        }
+                    }
+                    m.foto = fotos[indicefoto];
+                }
+
+                return m;
+            });
+
+            angular.module("myapp").controller('MyCtrl', function ($scope, IssuesModel, FotosModel) {
+                var im = $scope.im = IssuesModel;
+                var fm = $scope.fm = FotosModel;
+                im.get_issues();
+            });
+
+        </script>
+    </head>
+
+    <body ng-app="myapp" ng-controller="MyCtrl">
+        <div class="container" style="margin: 15px;">
+            <h1>$index, $event, $log</h1>
+            <hr>
+
+            <h2>Sobe/Desce</h2>
+            <img ng-show="im.loading_issues" src="img/loader.gif">
+
+            <table class="table">
+                <tr>
+                    <th>ID</th>
+                    <th>$index</th>
+                    <th>controls</th>
+                    <th>Título</th>
+                </tr>
+                <tr ng-repeat="issue in im.issues" ng-class="{selected: issue.is_selected}"
+                    ng-click="issue.is_selected=true">
+                    <td>{[{issue.number}]}</td>
+                    <td>{[{$index}]}</td>
+                    <td>
+                        <button ng-show="$index > 0" ng-click="im.sobe($index)">
+                            <i class="icon-chevron-up"></i>
+                        </button>
+                        <button ng-show="$index < im.issues.length - 1" ng-click="im.desce($index)">
+                            <i class="icon-chevron-down"></i>
+                        </button>
+                    </td>
+                    <td>{[{issue.title}]}</td>
+                </tr>
+            </table>
+            <hr>
+            <h2>Carrossel</h2>
+            <img ng-src="{[{fm.foto}]}" ng-click="fm.passafoto($event)" id="foto">
+
+            <div class="alert alert-info">
+                Tony, não esquece:
+                <ul>
+                    <li>angular.extend</li>
+                    <li>Mostra o closure em ação</li>
+                </ul>
+            </div>
+            <hr>
+
+            <h3>Blz blz, vamo pra umas coisas mais práticas?!</h3>
+            <ul>
+                <li><a href="#014-pratica1-todolist_denovo.html">Blz, vamos ver a TODO-list de novo</a></li>
+            </ul>
+        </div>
+        <div id="info"></div>
+        <script>
+            (function () {
+                if (!window.Global) {
+                    window.Global = [];
+                }
+
+                window.Global['elemento'] = document.getElementById("foto");
+                window.Global['divInfo'] = document.getElementById("info");
+
+                document.onmousemove = divShowInfo;
+                document.onclick = posicionaDivCordenadas;
+            })();
+        </script>
+
+    </body>
+
+
+</html>
+
+
+
