@@ -99,6 +99,7 @@
                             todoLoop = m.todos[i];
                             if (todoLoop.id == todo.id) {
                                 m.todos.splice(i, 1);
+                                break;
                             }
                         }
                     });
